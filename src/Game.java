@@ -6,20 +6,25 @@ public class Game {
 
     public void startGame(){
         System.out.println("Welcome BlackJack Table");
-        newGameSession();
+        while(true){
+            newGameSession();
+            if (!dealer.isUserContinueToGame()) {
+                break;
+            }
+        }
     }
 
     private void newGameSession() {
+
         System.out.println("****** Started New Session *******");
 
         dealer.startGame();
         player.startGame();
 
         dealer.setCardForDealer(dealer.getCards(2));
-        dealer.removeCardsFromDeck(2);
+
 
         player.setCards(dealer.getCards(2));
-        dealer.removeCardsFromDeck(2);
 
         // Show Cards Detail
         dealer.showVisibleCardsOfDealer(false);
@@ -28,10 +33,9 @@ public class Game {
         while (dealer.isUserWantNextCart() && dealer.canUserContinue()) {
             // Set new cards
             dealer.setCardForDealer(dealer.getCards(1));
-            dealer.removeCardsFromDeck(1);
+
 
             player.setCards(dealer.getCards(1));
-            dealer.removeCardsFromDeck(1);
 
             // Show Cards Detail
             dealer.showVisibleCardsOfDealer(false);
@@ -39,15 +43,11 @@ public class Game {
         }
 
         this.checkGameStatus();
-        if (dealer.isUserContinueToGame()) {
-            newGameSession();
-        }
     }
 
     private void checkGameStatus() {
         while(dealer.isDealerScoreEnoughForFinish() == false) {
             dealer.setCardForDealer(dealer.getCards(1));
-            dealer.removeCardsFromDeck(1);
         }
 
         System.out.println("****** End Game *******");

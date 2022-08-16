@@ -22,7 +22,10 @@ public class Dealer {
     }
 
     List<Card> getCards(int count) {
-        return cardDeck.subList(0, count);
+        List<Card> tmp = new ArrayList<Card>(cardDeck.subList(0, count));
+
+        this.removeCardsFromDeck(count);
+        return tmp;
     }
 
     void removeCardsFromDeck(int count) {
@@ -38,17 +41,17 @@ public class Dealer {
     GameResult checkResult(int playerScore) {
         int dealerScore = getDealerScore();
 
-        if (playerScore == dealerScore) {
+        if (playerScore == dealerScore && playerScore <= 21) {
             return GameResult.SCORELESS;
         }
 
-        else if ((playerScore <= 21) && (playerScore > dealerScore)) {
+        if ((playerScore <= 21) && (playerScore > dealerScore)) {
             return GameResult.WIN;
         }
-        else if ((playerScore <= 21 && dealerScore > 21)) {
+
+        if ((playerScore <= 21 && dealerScore > 21)) {
             return GameResult.WIN;
-        }
-        else {
+        } else {
             return GameResult.LOSE;
         }
      }
